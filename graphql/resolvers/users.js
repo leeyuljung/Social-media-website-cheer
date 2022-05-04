@@ -3,11 +3,18 @@ const jwt = require('jsonwebtoken');
 const { UserInputError } = require('apollo-server');
 const User = require('../../models/User');
 const { SECRET_KEY } = require('../../config');
+const { validateRegisterInput } = require('../../utils/validators');
 
 module.exports = {
     Mutation: {
         async register(_, { registerInput: { username, password, passwordConfirm, email } }) {
             
+            // 驗證欄位格式及是否為空值
+            const { errors, valid } = validateRegisterInput(username, password, passwordConfirm, email);
+            if(!valid){
+                throw new UserInputError('Errors', { errors });
+            }
+
             // 檢查 user 是否有註冊過
             const user = await User.findOne({ username });
 
