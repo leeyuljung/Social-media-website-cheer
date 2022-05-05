@@ -3,6 +3,7 @@ const { gql } = require('apollo-server');
 module.exports = gql`
     type Query {
         getPosts: [Post]
+        getPost(postId: ID!): Post
     }
 
     type Mutation {
