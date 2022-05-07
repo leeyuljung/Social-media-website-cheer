@@ -13,6 +13,7 @@ module.exports = gql`
         deletePost(postId: ID!): String!
         createComment(postId: ID!, body: String!): Post!
         deleteComment(postId: ID!, commentId: ID!): Post!
+        likePost(postId: ID!): Post!
     }
 
     input RegisterInput {
@@ -28,6 +29,7 @@ module.exports = gql`
         username: String!
         createdAt: String!
         comments: [Comment]!
+        likes: [Like]!
     }
 
     type User {
@@ -41,6 +43,12 @@ module.exports = gql`
     type Comment {
         id: ID!
         body: String!
+        username: String!
+        createdAt: String!
+    }
+
+    type Like {
+        id: ID!
         username: String!
         createdAt: String!
     }
