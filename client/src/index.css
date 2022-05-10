@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .test {
+        @apply border border-blue-500 bg-slate-500
+    }
+}
+
+body{
+    background: #fef9f1;
+}
