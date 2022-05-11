@@ -3,11 +3,13 @@
 @tailwind utilities;
 
 @layer components {
-    .test {
-        @apply border border-blue-500 bg-slate-500
-    }
+    
 }
 
 body{
     background: #fef9f1;
+}
+
+.active{
+    background: #c8c9dc;
 }
