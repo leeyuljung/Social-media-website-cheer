@@ -4,9 +4,10 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import MyPosts from './pages/MyPosts';
-import LikedPosts from './pages/LikedPosts';
+import CheeredPosts from './pages/CheeredPosts';
 import Header from './components/Header';
 import SideMenu from './components/SideMenu';
+import Notifications from './components/Notifications';
 
 function App() {
   const pathname = window.location.pathname;
@@ -14,15 +15,16 @@ function App() {
   return (
     <Router>
       <Header />
-      <div className='w-[1200px] mt-8 mx-auto flex justify-center'>
+      <div className='w-[1500px] mt-8 mx-auto flex'>
         { pathname === '/login' || pathname === '/register' ? null : <SideMenu /> }
         <Routes>
           <Route exact path="/" element={ <Home /> } />
           <Route exact path="/login" element={ <Login /> } />
           <Route exact path="/register" element={ <Register /> } />
           <Route exact path="/myPosts" element={ <MyPosts /> } />
-          <Route exact path="/likedPosts" element={ <LikedPosts /> } />
+          <Route exact path="/cheeredPosts" element={ <CheeredPosts /> } />
         </Routes>
+        { pathname === '/login' || pathname === '/register' ? null : <Notifications /> }
       </div>
     </Router>
   );
