@@ -2,8 +2,8 @@ import React from 'react';
 
 function Register() {
     return(
-        <div>
-            <h1>Register Page</h1>
+        <div className="flex-auto">
+            <h1 className="text-center">Register Page</h1>
         </div>
     )
 }
