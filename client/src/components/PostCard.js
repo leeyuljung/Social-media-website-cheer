@@ -3,7 +3,6 @@ import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeli
 import moment from 'moment';
 
 const PostCard = ({ posts }) => {
-    moment.locale();
     const showComments = (id) => {
         console.log(`Show comments of post(${id})`);
     }

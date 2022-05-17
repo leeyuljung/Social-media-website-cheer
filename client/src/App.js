@@ -14,7 +14,7 @@ function App() {
 
   return (
     <Router>
-      <Header />
+      { pathname === '/login' || pathname === '/register' ? null : <Header /> }
       <div className='w-[1500px] mt-8 mx-auto flex'>
         { pathname === '/login' || pathname === '/register' ? null : <SideMenu /> }
         <Routes>
