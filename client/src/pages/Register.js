@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { useForm } from '../utils/useForm';
 
 const REGISTER_USER_MUTATION = gql`
   mutation($username: String!, $email: String!, $password: String!, $passwordConfirm: String!){
@@ -17,36 +18,28 @@ const REGISTER_USER_MUTATION = gql`
 
 const Register = () => {
   const navigate = useNavigate();
-  const [ values, setValues ] = useState({
+  const [ errors, setErrors ] = useState({});
+
+  const { values, loading, onChange, onSubmit, setLoading } = useForm(registerUser, {
     username: '',
     email: '',
     password: '',
     passwordConfirm: ''
   });
-  const [ loading, setLoading ] = useState(false);
-  const [ errors, setErrors ] = useState({});
   
-  const onChange = (e) => {
-    setValues({...values, [e.target.name]: e.target.value});
-  }
-
-  const [ addUser ] = useMutation(REGISTER_USER_MUTATION, {
+  const [ register ] = useMutation(REGISTER_USER_MUTATION, {
     update(cache, result){
-      console.log(result);
       navigate('/');
     },
     onError(err){
       setErrors(err.graphQLErrors[0].extensions.errors);
-      // console.log(err.graphQLErrors[0].extensions.errors);
       setLoading(false);
     },
     variables: values
   })
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    addUser();
-    setLoading(true);
+  function registerUser(){
+    register();
   }
 
   return(
@@ -56,7 +49,7 @@ const Register = () => {
       </svg>
       <h2 className="text-center font-semibold text-3xl text-[#3d405b] tracking-wide drop-shadow-md">Welcome to <span className="text-[#fff]">Cheer</span></h2>
 
-      <form className="mt-10" onSubmit={ onSubmit } noValidate>
+      <form className="mt-8" onSubmit={ onSubmit } noValidate>
         {/* Username*/}
         <label htmlFor="username" className="block text-xs font-semibold text-gray-600 uppercase">Username</label>
         <input 
@@ -64,7 +57,7 @@ const Register = () => {
           type="text" 
           name="username" 
           placeholder="username" 
-          className={`block w-full py-3 px-2 mt-2 text-[#3d405b] appearance-none border-2 border-transparent rounded-md transition duration-500 focus:outline-none focus:border-[#b7a8e8] ${ errors.username ? "border-[#ffa718]" : ""}`}
+          className={`block w-full py-2 px-2 mt-2 text-[#3d405b] appearance-none border-2 border-transparent rounded-md transition duration-500 focus:outline-none focus:border-[#b7a8e8] ${ errors.username ? "border-[#ffa718]" : ""}`}
           required 
           value={ values.username }
           onChange={ onChange }
@@ -77,7 +70,7 @@ const Register = () => {
           type="email" 
           name="email" 
           placeholder="e-mail" 
-          className={`block w-full py-3 px-2 mt-2 text-[#3d405b] appearance-none border-2 border-transparent rounded-md transition duration-500 focus:outline-none focus:border-[#b7a8e8] ${ errors.email ? "border-[#ffa718]" : ""}`}
+          className={`block w-full py-2 px-2 mt-2 text-[#3d405b] appearance-none border-2 border-transparent rounded-md transition duration-500 focus:outline-none focus:border-[#b7a8e8] ${ errors.email ? "border-[#ffa718]" : ""}`}
           required 
           value={ values.email }
           onChange={ onChange }
@@ -90,7 +83,7 @@ const Register = () => {
           type="password" 
           name="password" 
           placeholder="password" 
-          className={`block w-full py-3 px-2 mt-2 text-[#3d405b] appearance-none border-2 border-transparent rounded-md transition duration-500 focus:outline-none focus:border-[#b7a8e8] ${ errors.password ? "border-[#ffa718]" : ""}`}
+          className={`block w-full py-2 px-2 mt-2 text-[#3d405b] appearance-none border-2 border-transparent rounded-md transition duration-500 focus:outline-none focus:border-[#b7a8e8] ${ errors.password ? "border-[#ffa718]" : ""}`}
           required 
           value={ values.password }
           onChange={ onChange }
@@ -103,7 +96,7 @@ const Register = () => {
           type="password" 
           name="passwordConfirm" 
           placeholder="confirm password" 
-          className={`block w-full py-3 px-2 mt-2 text-[#3d405b] appearance-none border-2 border-transparent rounded-md transition duration-500 focus:outline-none focus:border-[#b7a8e8] ${ errors.passwordConfirm ? "border-[#ffa718]" : ""}`}
+          className={`block w-full py-2 px-2 mt-2 text-[#3d405b] appearance-none border-2 border-transparent rounded-md transition duration-500 focus:outline-none focus:border-[#b7a8e8] ${ errors.passwordConfirm ? "border-[#ffa718]" : ""}`}
           required 
           value={ values.passwordConfirm }
           onChange={ onChange }
@@ -112,7 +105,7 @@ const Register = () => {
         {/* Submit Buttton */}
         <button 
           type="submit" 
-          className={`w-full py-3 mt-10 bg-[#585a79] transition duration-300 rounded-sm font-medium text-[#d9d9d9] uppercase tracking-wider focus:outline-none hover:bg-[#3e405b] hover:shadow-none ${ loading ? "bg-[#3e405b] animate-pulse" : "" }`}
+          className={`w-full py-3 mt-8 bg-[#585a79] transition duration-300 rounded-sm font-medium text-[#d9d9d9] uppercase tracking-wider focus:outline-none hover:bg-[#3e405b] hover:shadow-none ${ loading ? "bg-[#3e405b] animate-pulse" : "" }`}
           disabled={ loading }
         >
           <div className="flex justify-center gap-2">
@@ -122,16 +115,13 @@ const Register = () => {
           
         </button>
 
-        {/* <div className="sm:flex sm:flex-wrap mt-8 sm:mb-4 text-sm text-center">
-            <a href="forgot-password" className="flex-2">Forgot password?</a>
-            <p className="flex-1 text-gray-500 text-md mx-4 my-1 sm:my-auto">or</p>
-            <p>Already had an account?</p>
-            <a href="register" className="flex-2">Login</a>
-        </div> */}
+        <div className="mt-6 text-sm text-center text-[#585a79] drop-shadow-md tracking-wider">
+          <p>Already have an account? <Link to="/login" className="mx-2 text-[#f8f8f2] transition duration-500 hover:text-[#585a79]">Login</Link></p>
+        </div>
       </form>
       { 
         Object.keys(errors).length > 0 && (
-          <ul className="bg-[#fcb09b94] px-8 py-4 mt-2 rounded-lg opacity-100 transition duration-500 text-[#585a79] border-2 border-solid border-[#ffffff85] shadow-md">
+          <ul className="bg-[#fcb09b94] px-8 py-4 mt-6 rounded-lg opacity-100 transition duration-500 text-[#585a79] border-2 border-solid border-[#ffffff85] shadow-md">
             { Object.values(errors).map(value => <li key={ value }>{ value }</li>) }
           </ul>
         )
