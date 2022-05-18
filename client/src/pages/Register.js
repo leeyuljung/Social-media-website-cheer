@@ -24,6 +24,7 @@ const Register = () => {
     passwordConfirm: ''
   });
   const [ loading, setLoading ] = useState(false);
+  const [ errors, setErrors ] = useState({});
   
   const onChange = (e) => {
     setValues({...values, [e.target.name]: e.target.value});
@@ -33,6 +34,11 @@ const Register = () => {
     update(cache, result){
       console.log(result);
       navigate('/');
+    },
+    onError(err){
+      setErrors(err.graphQLErrors[0].extensions.errors);
+      // console.log(err.graphQLErrors[0].extensions.errors);
+      setLoading(false);
     },
     variables: values
   })
@@ -50,7 +56,7 @@ const Register = () => {
       </svg>
       <h2 className="text-center font-semibold text-3xl text-[#3d405b] tracking-wide drop-shadow-md">Welcome to <span className="text-[#fff]">Cheer</span></h2>
 
-      <form className="mt-10" onSubmit={ onSubmit }>
+      <form className="mt-10" onSubmit={ onSubmit } noValidate>
         {/* Username*/}
         <label htmlFor="username" className="block text-xs font-semibold text-gray-600 uppercase">Username</label>
         <input 
@@ -58,7 +64,7 @@ const Register = () => {
           type="text" 
           name="username" 
           placeholder="username" 
-          className="block w-full py-3 px-2 mt-2 text-[#3d405b] appearance-none border-b-2 border-gray-100 focus:text-gray-500 focus:outline-none focus:border-gray-200"
+          className={`block w-full py-3 px-2 mt-2 text-[#3d405b] appearance-none border-2 border-transparent rounded-md transition duration-500 focus:outline-none focus:border-[#b7a8e8] ${ errors.username ? "border-[#ffa718]" : ""}`}
           required 
           value={ values.username }
           onChange={ onChange }
@@ -71,7 +77,7 @@ const Register = () => {
           type="email" 
           name="email" 
           placeholder="e-mail" 
-          className="block w-full py-3 px-2 mt-2 text-[#3d405b] appearance-none border-b-2 border-gray-100 focus:text-gray-500 focus:outline-none focus:border-gray-200"
+          className={`block w-full py-3 px-2 mt-2 text-[#3d405b] appearance-none border-2 border-transparent rounded-md transition duration-500 focus:outline-none focus:border-[#b7a8e8] ${ errors.email ? "border-[#ffa718]" : ""}`}
           required 
           value={ values.email }
           onChange={ onChange }
@@ -84,7 +90,7 @@ const Register = () => {
           type="password" 
           name="password" 
           placeholder="password" 
-          className="block w-full py-3 px-2 mt-2 mb-4 text-[#3d405b] appearance-none border-b-2 border-gray-100 focus:text-gray-500 focus:outline-none focus:border-gray-200"
+          className={`block w-full py-3 px-2 mt-2 text-[#3d405b] appearance-none border-2 border-transparent rounded-md transition duration-500 focus:outline-none focus:border-[#b7a8e8] ${ errors.password ? "border-[#ffa718]" : ""}`}
           required 
           value={ values.password }
           onChange={ onChange }
@@ -97,7 +103,7 @@ const Register = () => {
           type="password" 
           name="passwordConfirm" 
           placeholder="confirm password" 
-          className="block w-full py-3 px-2 mt-2 mb-4 text-[#3d405b] appearance-none border-b-2 border-gray-100 focus:text-gray-500 focus:outline-none focus:border-gray-200"
+          className={`block w-full py-3 px-2 mt-2 text-[#3d405b] appearance-none border-2 border-transparent rounded-md transition duration-500 focus:outline-none focus:border-[#b7a8e8] ${ errors.passwordConfirm ? "border-[#ffa718]" : ""}`}
           required 
           value={ values.passwordConfirm }
           onChange={ onChange }
@@ -123,6 +129,13 @@ const Register = () => {
             <a href="register" className="flex-2">Login</a>
         </div> */}
       </form>
+      { 
+        Object.keys(errors).length > 0 && (
+          <ul className="bg-[#fcb09b94] px-8 py-4 mt-2 rounded-lg opacity-100 transition duration-500 text-[#585a79] border-2 border-solid border-[#ffffff85] shadow-md">
+            { Object.values(errors).map(value => <li key={ value }>{ value }</li>) }
+          </ul>
+        )
+      }
     </div>
   )
 }
