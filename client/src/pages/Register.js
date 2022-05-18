@@ -15,7 +15,7 @@ const REGISTER_USER_MUTATION = gql`
   }
 `
 
-const Register = (props) => {
+const Register = () => {
   const navigate = useNavigate();
   const [ values, setValues ] = useState({
     username: '',
@@ -23,15 +23,16 @@ const Register = (props) => {
     password: '',
     passwordConfirm: ''
   });
+  const [ loading, setLoading ] = useState(false);
   
   const onChange = (e) => {
     setValues({...values, [e.target.name]: e.target.value});
   }
 
-  const [ addUser, { loading } ] = useMutation(REGISTER_USER_MUTATION, {
+  const [ addUser ] = useMutation(REGISTER_USER_MUTATION, {
     update(cache, result){
       console.log(result);
-      navigate('/')
+      navigate('/');
     },
     variables: values
   })
@@ -39,6 +40,7 @@ const Register = (props) => {
   const onSubmit = (e) => {
     e.preventDefault();
     addUser();
+    setLoading(true);
   }
 
   return(
@@ -104,9 +106,14 @@ const Register = (props) => {
         {/* Submit Buttton */}
         <button 
           type="submit" 
-          className="w-full py-3 mt-10 bg-[#585a79] transition duration-300 rounded-sm font-medium text-[#d9d9d9] uppercase tracking-wider focus:outline-none hover:bg-[#3e405b] hover:shadow-none"
+          className={`w-full py-3 mt-10 bg-[#585a79] transition duration-300 rounded-sm font-medium text-[#d9d9d9] uppercase tracking-wider focus:outline-none hover:bg-[#3e405b] hover:shadow-none ${ loading ? "bg-[#3e405b] animate-pulse" : "" }`}
+          disabled={ loading }
         >
-          register
+          <div className="flex justify-center gap-2">
+            <span className={`h-6 w-6 block rounded-full border-4 border-[#88819e] border-t-[#ffd46f] animate-spin ${ loading ? "" : "hidden" }`}></span>
+            <span>{ loading ? 'loading...' : 'register' }</span>
+          </div>
+          
         </button>
 
         {/* <div className="sm:flex sm:flex-wrap mt-8 sm:mb-4 text-sm text-center">
