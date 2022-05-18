@@ -26,6 +26,7 @@ body{
     background: linear-gradient(to bottom, rgba(255, 190, 111, 0.5), rgba(206, 182, 240, 0.5));
     height: 100vh;
     font-family: 'Rubik', 'KosugiMaru', 'PingFang';
+    overflow: hidden;
 }
 
 ::-webkit-scrollbar {
