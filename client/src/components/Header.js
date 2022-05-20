@@ -1,34 +1,40 @@
-import { Fragment } from 'react'
-import { Popover, Transition } from '@headlessui/react'
-import { MenuIcon, XIcon } from '@heroicons/react/outline'
+import { useContext, Fragment } from "react";
+import { Popover, Transition } from "@headlessui/react";
+import { MenuIcon, XIcon } from "@heroicons/react/outline";
+import { AuthContext } from "../context/auth";
+import { Link } from "react-router-dom";
 
 const menu = [
   {
-    name: 'Home',
-    href: '#'
+    name: "Home",
+    href: "#",
   },
   {
-    name: 'Add Post',
-    href: '#'
+    name: "Add Post",
+    href: "#",
   },
   {
-    name: 'My Posts',
-    href: '#'
+    name: "My Posts",
+    href: "#",
   },
-  { 
-    name: 'Liked Posts', 
-    href: '#'
-  }
-]
+  {
+    name: "Liked Posts",
+    href: "#",
+  },
+];
 
 const Header = () => {
+  const { logout } = useContext(AuthContext);
+
   return (
     <Popover className="bg-[#3d405b]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex justify-between items-center border-gray-100 py-4 md:justify-start md:space-x-10">
           <div className="flex justify-start lg:w-0 lg:flex-1">
             <button>
-              <span className="text-[#ffd46f] font-bold text-xl tracking-widest">Cheer :)</span>
+              <span className="text-[#ffd46f] font-bold text-xl tracking-widest">
+                Cheer :)
+              </span>
             </button>
           </div>
           {/* 手機 Menu 按鈕 */}
@@ -39,15 +45,34 @@ const Header = () => {
             </Popover.Button>
           </div>
           <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-            <button type="button" className="px-3 pt-1 pb-1 mr-3 bg-[#dadbea] text-[#676a8c] font-bold text-sm leading-normal uppercase rounded hover:bg-[#ffd46f] hover:scale-105 active:bg-[#ffd46f] active:shadow-lg transition duration-200 ease-in-out flex align-center items-center scale-100 relative">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <button
+              type="button"
+              className="px-3 pt-1 pb-1 mr-3 bg-[#dadbea] text-[#676a8c] font-bold text-sm leading-normal uppercase rounded hover:bg-[#ffd46f] hover:scale-105 active:bg-[#ffd46f] active:shadow-lg transition duration-200 ease-in-out flex align-center items-center scale-100 relative"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 mr-1"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
               Add Post
             </button>
-            <button className="whitespace-nowrap text-base font-medium text-gray-400 hover:text-gray-300">
+
+            <Link
+              to="/login"
+              className="whitespace-nowrap text-base font-medium text-gray-400 hover:text-gray-300"
+              onClick={logout}
+            >
               Log out
-            </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -99,7 +124,7 @@ const Header = () => {
         </Popover.Panel>
       </Transition> */}
     </Popover>
-  )
-}
+  );
+};
 
 export default Header;
