@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "../utils/useForm";
+import { AuthContext } from "../context/auth";
 
 const REGISTER_USER_MUTATION = gql`
   mutation (
@@ -31,6 +32,7 @@ const REGISTER_USER_MUTATION = gql`
 const Register = () => {
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
+  const context = useContext(AuthContext);
 
   const { values, loading, onChange, onSubmit, setLoading } = useForm(
     registerUser,
@@ -43,7 +45,8 @@ const Register = () => {
   );
 
   const [register] = useMutation(REGISTER_USER_MUTATION, {
-    update(cache, result) {
+    update(cache, { data: { register: userData } }) {
+      context.login(userData);
       navigate("/");
     },
     onError(err) {
