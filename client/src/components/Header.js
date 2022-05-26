@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useForm } from "../utils/useForm";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
+import { FETCH_POSTS_QUERY } from "../utils/graphql";
 
 // const menu = [
 //   {
@@ -33,6 +34,19 @@ const CREATE_POST_MUTATION = gql`
       body
       username
       createdAt
+      comments {
+        id
+        body
+        username
+        createdAt
+      }
+      likes {
+        id
+        username
+        createdAt
+      }
+      commentCount
+      likeCount
     }
   }
 `;
@@ -50,7 +64,9 @@ const Header = () => {
 
   const [createPost] = useMutation(CREATE_POST_MUTATION, {
     update(cache, result) {
-      console.log(result);
+      const data = cache.readQuery({ query: FETCH_POSTS_QUERY });
+      const newData = { getPosts: [result.data.createPost, ...data.getPosts] };
+      cache.writeQuery({ query: FETCH_POSTS_QUERY, data: newData });
       values.body = "";
       setLoading(false);
       setShowModal(false);

@@ -1,29 +1,7 @@
 import React from "react";
 import { useQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
 import PostCard from "../components/PostCard";
-
-const FETCH_POSTS_QUERY = gql`
-  {
-    getPosts {
-      id
-      body
-      username
-      createdAt
-      comments {
-        id
-        body
-        username
-        createdAt
-      }
-      likes {
-        username
-      }
-      commentCount
-      likeCount
-    }
-  }
-`;
+import { FETCH_POSTS_QUERY } from "../utils/graphql";
 
 const Home = () => {
   const { data: { getPosts: posts } = { getPosts: [] }, loading } =
