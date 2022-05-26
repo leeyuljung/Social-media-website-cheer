@@ -15,7 +15,7 @@ if (localStorage.getItem("jwtToken")) {
   }
 }
 
-const AuthContext = createContext({
+export const AuthContext = createContext({
   user: null,
   login: () => {},
   logout: () => {},
@@ -40,7 +40,7 @@ const authReducer = (state, action) => {
   }
 };
 
-function AuthProvider(props) {
+export function AuthProvider(props) {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
   function login(userData) {
@@ -65,5 +65,3 @@ function AuthProvider(props) {
     />
   );
 }
-
-export { AuthContext, AuthProvider };

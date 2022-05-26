@@ -3,73 +3,103 @@
 @tailwind utilities;
 
 @layer components {
-    
 }
 
 @font-face {
-    font-family: 'KosugiMaru'; 
-    src: url('../public/KosugiMaru-Regular.ttf');
-  }
-  
-@font-face {
-    font-family: 'Rubik'; 
-    src: url('../public/Rubik-Regular.ttf');
+  font-family: "KosugiMaru";
+  src: url("../public/KosugiMaru-Regular.ttf");
 }
 
 @font-face {
-    font-family: 'PingFang'; 
-    src: url('../public/PingFang_Bold.ttf');
+  font-family: "Rubik";
+  src: url("../public/Rubik-Regular.ttf");
 }
 
-body{
-    background: #cfd1da;
-    background: linear-gradient(to bottom, rgba(255, 190, 111, 0.5), rgba(206, 182, 240, 0.5));
-    height: 100vh;
-    font-family: 'Rubik', 'KosugiMaru', 'PingFang';
-    overflow: hidden;
+@font-face {
+  font-family: "PingFang";
+  src: url("../public/PingFang_Bold.ttf");
+}
+
+body {
+  background: #cfd1da;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 190, 111, 0.5),
+    rgba(206, 182, 240, 0.5)
+  );
+  height: 100vh;
+  font-family: "Rubik", "KosugiMaru", "PingFang";
+  overflow: hidden;
 }
 
 ::-webkit-scrollbar {
-    background: #c8c9dc;
-    width: 10px;
-    height: 10px;
+  background: #c8c9dc;
+  width: 10px;
+  height: 10px;
 }
-  
+
 ::-webkit-scrollbar-thumb {
-    background: #8c90b1a1;
-    border-radius: 15px;
+  background: #8c90b1a1;
+  border-radius: 15px;
 }
-  
+
 ::-webkit-scrollbar-button {
-    display: none;
+  display: none;
 }
 
-.active{
-    background: #c8c9dc;
+.active {
+  background: #c8c9dc;
 }
 
-.active-btn{
-    background: #fdd540;
+.active-btn {
+  background: #fdd540;
 }
 
-.vertical-timeline-element-icon{
-    border: 2px solid rgb(189, 176, 203);
+.vertical-timeline-element-icon {
+  border: 2px solid rgb(189, 176, 203);
 }
 
-.vertical-timeline-element-subtitle{
-    color: #b4b4b4;
-    font-size: 14px;
-    letter-spacing: 1px;
+.vertical-timeline-element-subtitle {
+  color: #b4b4b4;
+  font-size: 14px;
+  letter-spacing: 1px;
 }
 
-.vertical-timeline-element-subtitle::after{
-    content: '';
-    display: block;
-    width: 100%;
-    height: 4px;
-    background: linear-gradient(to right, rgba(255, 190, 111, 0.5), rgba(206, 182, 240, 0.5));
+.vertical-timeline-element-subtitle::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(
+    to right,
+    rgba(255, 190, 111, 0.5),
+    rgba(206, 182, 240, 0.5)
+  );
 }
 
-.vertical-timeline-element-content .vertical-timeline-element-date{
-    padding: 1rem .8rem !important;
+.vertical-timeline-element-content .vertical-timeline-element-date {
+  padding: 1rem 0.8rem !important;
+}
+
+/* Modal animation */
+.animated {
+  -webkit-animation-duration: 0.5s;
+  animation-duration: 0.5s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+.fadeIn {
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
