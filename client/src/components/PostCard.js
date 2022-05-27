@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   VerticalTimeline,
   VerticalTimelineElement,
 } from "react-vertical-timeline-component";
 import moment from "moment";
+import { AuthContext } from "../context/auth";
 
 const PostCard = ({ posts }) => {
+  const { user } = useContext(AuthContext);
   const showComments = (id) => {
     console.log(`Show comments of post(${id})`);
+  };
+
+  const deletePost = () => {
+    console.log("Delete Post");
   };
 
   return (
@@ -15,7 +21,7 @@ const PostCard = ({ posts }) => {
       {posts.map((post) => (
         <VerticalTimelineElement
           key={post.id}
-          className="vertical-timeline-element--work"
+          className="vertical-timeline-element--work relative"
           contentStyle={{ background: "#fff", color: "#676a8c" }}
           contentArrowStyle={{ borderRight: "7px solid #fff" }}
           date={moment(post.createdAt).format("LT")}
@@ -28,15 +34,21 @@ const PostCard = ({ posts }) => {
             />
           }
         >
+          {/* Post Date */}
           <h4 className="vertical-timeline-element-subtitle">
             {moment(post.createdAt).format("L")}
           </h4>
+
+          {/* Post Body */}
           <p>{post.body}</p>
+
+          {/* Post like and comment counts */}
           <div className="flex justify-between items-center border-t border-dashed pt-3 mt-4">
             <div
               className="flex p-1 rounded-md cursor-pointer bg-white hover:bg-[#e7e8f8] transition"
               onClick={(e) => showComments(post.id)}
             >
+              {/* like counts */}
               <div className="flex items-center mr-3 pr-3 border-r border-[#dad9dc] border-dashed">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -54,6 +66,7 @@ const PostCard = ({ posts }) => {
                 </svg>
                 <span>{post.likeCount}</span>
               </div>
+              {/* comment counts */}
               <div className="flex items-center mr-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -72,6 +85,8 @@ const PostCard = ({ posts }) => {
                 <span>{post.commentCount}</span>
               </div>
             </div>
+
+            {/* Like Button */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-8 w-8 inline-block text-[#676a8c] bg-[#fff] rounded-full cursor-pointer hover:bg-[#fdd540] hover:animate-[bounce_0.8s_ease-in_0.3s_infinite]"
@@ -87,6 +102,29 @@ const PostCard = ({ posts }) => {
               />
             </svg>
           </div>
+
+          {/* Delete Button */}
+          {user.username === post.username ? (
+            <button
+              className="absolute right-0 top-full mt-2 w-[20px] h-[20px] p-2 bg-[#ffc1c1] hover:bg-[#fdbbbb] border-2 border-white rounded-full !box-content shadow-md"
+              onClick={deletePost}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                />
+              </svg>
+            </button>
+          ) : null}
         </VerticalTimelineElement>
       ))}
     </VerticalTimeline>
