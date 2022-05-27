@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useForm } from "../utils/useForm";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
@@ -28,6 +29,7 @@ const CREATE_POST_MUTATION = gql`
 `;
 
 const PostForm = ({ showModal, setShowModal }) => {
+  const [error, setError] = useState("");
   const { values, loading, onChange, onSubmit, setLoading } = useForm(
     createPostCallback,
     {
@@ -37,6 +39,9 @@ const PostForm = ({ showModal, setShowModal }) => {
 
   if (!showModal) {
     values.body = "";
+    if (error) {
+      setError("");
+    }
   }
 
   const [createPost] = useMutation(CREATE_POST_MUTATION, {
@@ -48,7 +53,7 @@ const PostForm = ({ showModal, setShowModal }) => {
       setShowModal(false);
     },
     onError(err) {
-      console.log(err);
+      setError(err.graphQLErrors[0].message);
       setLoading(false);
     },
     variables: values,
@@ -71,12 +76,20 @@ const PostForm = ({ showModal, setShowModal }) => {
           </h1>
           <form onSubmit={onSubmit}>
             <textarea
-              className="mb-5 mt-2 py-2 h-[300px] text-gray-600 focus:outline-none focus:border-2 focus:border-[#b6bafb] font-normal w-full flex items-center pl-3 text-sm border-gray-300 rounded border"
+              className={`mb-5 mt-2 py-2 h-[300px] text-gray-600 focus:outline-none focus:border-2 focus:border-[#b6bafb] font-normal w-full flex items-center pl-3 text-sm border-gray-300 rounded border ${
+                error ? "border-[#ffa718]" : ""
+              }`}
               placeholder="Share something..."
               name="body"
               onChange={onChange}
               value={values.body}
             />
+
+            {error && (
+              <ul className="bg-[#fcb09b94] px-8 py-4 my-6 rounded-lg opacity-100 transition duration-500 text-[#585a79] border-2 border-solid border-[#ffffff85] shadow-md">
+                <li>{error}</li>
+              </ul>
+            )}
 
             {/* Submit button */}
             <div className="flex items-center justify-center w-full">
