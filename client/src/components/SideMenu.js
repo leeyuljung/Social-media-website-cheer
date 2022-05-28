@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../context/auth";
+import Avatar from "boring-avatars";
 
 const SideMenu = () => {
   const { user } = useContext(AuthContext);
@@ -11,11 +12,7 @@ const SideMenu = () => {
         <div className="flex items-center">
           {/* 頭貼 */}
           <div>
-            <img
-              src="https://i.imgur.com/u2xDgkr.jpg"
-              className="rounded-full w-20 border-[4px] border-[#fff]"
-              alt="Avatar"
-            />
+            <Avatar size={80} name={user.username} variant="beam" />
           </div>
           {/* Username */}
           <div className="ml-3">

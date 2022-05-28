@@ -5,6 +5,7 @@ import {
 } from "react-vertical-timeline-component";
 import moment from "moment";
 import { AuthContext } from "../context/auth";
+import Avatar from "boring-avatars";
 
 const PostCard = ({ posts }) => {
   const { user } = useContext(AuthContext);
@@ -25,14 +26,11 @@ const PostCard = ({ posts }) => {
           contentStyle={{ background: "#fff", color: "#676a8c" }}
           contentArrowStyle={{ borderRight: "7px solid #fff" }}
           date={moment(post.createdAt).format("LT")}
-          iconStyle={{ background: "transparent", color: "#fff" }}
-          icon={
-            <img
-              src="https://i.imgur.com/u2xDgkr.jpg"
-              alt="test"
-              className="rounded-full bg-white"
-            />
-          }
+          iconStyle={{
+            background: "transparent",
+            color: "#fff",
+          }}
+          icon={<Avatar name={post.username} variant="beam" />}
         >
           {/* Post Date */}
           <h4 className="vertical-timeline-element-subtitle">
@@ -106,7 +104,7 @@ const PostCard = ({ posts }) => {
           {/* Delete Button */}
           {user.username === post.username ? (
             <button
-              className="absolute right-0 top-full mt-2 w-[20px] h-[20px] p-2 bg-[#ffc1c1] hover:bg-[#fdbbbb] border-2 border-white rounded-full !box-content shadow-md"
+              className="absolute right-0 top-full mt-2 w-[20px] h-[20px] p-2 scale-100 bg-[#ffd7a9] transition duration-300 hover:bg-[#ffc1c1] hover:scale-105 border-2 border-white rounded-full !box-content shadow-md"
               onClick={deletePost}
             >
               <svg
@@ -115,11 +113,11 @@ const PostCard = ({ posts }) => {
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
-                stroke-width="2"
+                strokeWidth="2"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
                 />
               </svg>
