@@ -25,8 +25,12 @@ import PostForm from "../components/PostForm";
 // ];
 
 const Header = () => {
-  const { logout } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
   const [showModal, setShowModal] = useState(false);
+
+  if (!user) {
+    logout();
+  }
 
   return (
     <Popover className="bg-[#3d405b]">
