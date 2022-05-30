@@ -10,11 +10,14 @@ const DELETE_POST_MUTATION = gql`
   }
 `;
 
-const DeleteButton = ({ postId }) => {
+const DeleteButton = ({ postId, callback }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [deletePost] = useMutation(DELETE_POST_MUTATION, {
     update(cache, result) {
+      if (callback) {
+        callback();
+      }
       const data = cache.readQuery({ query: FETCH_POSTS_QUERY });
       const newData = {
         getPosts: [...data.getPosts].filter((post) => post.id !== postId),
@@ -28,7 +31,11 @@ const DeleteButton = ({ postId }) => {
   return (
     <>
       <button
-        className="absolute right-0 top-full mt-2 w-[20px] h-[20px] p-2 scale-100 bg-[#ffd7a9] transition duration-300 hover:bg-[#ffc1c1] hover:scale-105 border-2 border-white rounded-full !box-content shadow-md"
+        className={`right-0 top-full w-[20px] h-[20px] p-2 scale-100 bg-[#ffd7a9] transition duration-300 hover:bg-[#ffc1c1] hover:scale-105 rounded-full !box-content  ${
+          callback
+            ? "shadow-none border-0"
+            : "absolute mt-2 shadow-md border-2 border-white"
+        }`}
         onClick={() => setIsOpen(true)}
       >
         <svg

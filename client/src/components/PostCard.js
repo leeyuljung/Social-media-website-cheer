@@ -7,16 +7,11 @@ import moment from "moment";
 import { AuthContext } from "../context/auth";
 import Avatar from "boring-avatars";
 import CheerButton from "./CheerButton";
+import DeleteButton from "./DeleteButton";
+import { Link } from "react-router-dom";
 
 const PostCard = ({ posts }) => {
   const { user } = useContext(AuthContext);
-  const showComments = (id) => {
-    console.log(`Show comments of post(${id})`);
-  };
-
-  const deletePost = () => {
-    console.log("Delete Post");
-  };
 
   return (
     <VerticalTimeline lineColor="#ffffffa6">
@@ -42,11 +37,11 @@ const PostCard = ({ posts }) => {
             {/* Post Body */}
             <p>{body}</p>
 
-            {/* Post like and comment counts */}
             <div className="flex justify-between items-center border-t border-dashed pt-3 mt-4">
-              <div
+              {/* Post like and comment counts */}
+              <Link
                 className="flex p-1 rounded-md cursor-pointer bg-white hover:bg-[#e7e8f8] transition"
-                onClick={(e) => showComments(id)}
+                to={`/post/${id}`}
               >
                 {/* like counts */}
                 <div className="flex items-center mr-3 pr-3 border-r border-[#dad9dc] border-dashed">
@@ -84,34 +79,14 @@ const PostCard = ({ posts }) => {
                   </svg>
                   <span>{commentCount}</span>
                 </div>
-              </div>
+              </Link>
 
               {/* Like Button */}
               <CheerButton user={user} post={{ id, likes }} />
             </div>
 
             {/* Delete Button */}
-            {user.username === username ? (
-              <button
-                className="absolute right-0 top-full mt-2 w-[20px] h-[20px] p-2 scale-100 bg-[#ffd7a9] transition duration-300 hover:bg-[#ffc1c1] hover:scale-105 border-2 border-white rounded-full !box-content shadow-md"
-                onClick={deletePost}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                  />
-                </svg>
-              </button>
-            ) : null}
+            {user.username === username ? <DeleteButton postId={id} /> : null}
           </VerticalTimelineElement>
         )
       )}
