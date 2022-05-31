@@ -10,29 +10,49 @@ const DELETE_POST_MUTATION = gql`
   }
 `;
 
-const DeleteButton = ({ postId, callback }) => {
+const DELETE_COMMENT_MUTATION = gql`
+  mutation deleteComment($postId: ID!, $commentId: ID!) {
+    deleteComment(postId: $postId, commentId: $commentId) {
+      id
+      comments {
+        id
+        body
+        username
+        createdAt
+      }
+      commentCount
+    }
+  }
+`;
+
+const DeleteButton = ({ postId, callback, commentId }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const [deletePost] = useMutation(DELETE_POST_MUTATION, {
-    update(cache, result) {
-      if (callback) {
-        callback();
-      }
-      const data = cache.readQuery({ query: FETCH_POSTS_QUERY });
-      const newData = {
-        getPosts: [...data.getPosts].filter((post) => post.id !== postId),
-      };
-      cache.writeQuery({ query: FETCH_POSTS_QUERY, data: newData });
-      setIsOpen(false);
-    },
-    variables: { postId },
-  });
+  const [deletePostOrComment] = useMutation(
+    commentId ? DELETE_COMMENT_MUTATION : DELETE_POST_MUTATION,
+    {
+      update(cache) {
+        setIsOpen(false);
+        if (!commentId) {
+          const data = cache.readQuery({ query: FETCH_POSTS_QUERY });
+          const newData = {
+            getPosts: [...data.getPosts].filter((post) => post.id !== postId),
+          };
+          cache.writeQuery({ query: FETCH_POSTS_QUERY, data: newData });
+        }
+        if (callback) {
+          callback();
+        }
+      },
+      variables: { postId, commentId },
+    }
+  );
 
   return (
     <>
       <button
         className={`right-0 top-full w-[20px] h-[20px] p-2 scale-100 bg-[#ffd7a9] transition duration-300 hover:bg-[#ffc1c1] hover:scale-105 rounded-full !box-content  ${
-          callback
+          callback || commentId
             ? "shadow-none border-0"
             : "absolute mt-2 shadow-md border-2 border-white"
         }`}
@@ -65,7 +85,7 @@ const DeleteButton = ({ postId, callback }) => {
               Delete
             </Dialog.Title>
             <Dialog.Description className="px-4 py-8 text-[#737595] text-center tracking-wide">
-              Are you sure to delete this post?
+              Are you sure to delete this {commentId ? "comment" : "post"}?
             </Dialog.Description>
             <div className="flex justify-center mb-3">
               <button
@@ -76,7 +96,7 @@ const DeleteButton = ({ postId, callback }) => {
               </button>
               <button
                 className="bg-[#d9dae3] text-[#686a8c] px-4 py-2 rounded-md mx-2 hover:bg-[#c8cadd]"
-                onClick={deletePost}
+                onClick={deletePostOrComment}
               >
                 Delete
               </button>

@@ -1,4 +1,4 @@
-import { useState, useContext, Fragment } from "react";
+import { useState, useContext, Fragment, useEffect } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { AuthContext } from "../context/auth";
@@ -28,9 +28,11 @@ const Header = () => {
   const { user, logout } = useContext(AuthContext);
   const [showModal, setShowModal] = useState(false);
 
-  if (!user) {
-    logout();
-  }
+  useEffect(() => {
+    if (!user) {
+      logout();
+    }
+  }, [logout, user]);
 
   return (
     <Popover className="bg-[#3d405b]">
