@@ -1,11 +1,11 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Avatar from "boring-avatars";
 import { AuthContext } from "../context/auth";
 import DeleteButton from "../components/DeleteButton";
 import CheerButton from "../components/CheerButton";
 import gql from "graphql-tag";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 import moment from "moment";
 import { FETCH_POSTS_QUERY } from "../utils/graphql";
 
@@ -33,10 +33,26 @@ const FETCH_POST_QUERY = gql`
   }
 `;
 
+const SUBMIT_COMMENT_MUTATION = gql`
+  mutation createComment($postId: ID!, $body: String!) {
+    createComment(postId: $postId, body: $body) {
+      id
+      comments {
+        id
+        body
+        username
+        createdAt
+      }
+      commentCount
+    }
+  }
+`;
+
 const SinglePost = () => {
   const { postId } = useParams();
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
+  const [comment, setComment] = useState("");
 
   const { data: { getPost: post } = { getPost: {} } } = useQuery(
     FETCH_POST_QUERY,
@@ -49,6 +65,18 @@ const SinglePost = () => {
 
   const { data: { getPosts: posts } = { getPosts: [] } } =
     useQuery(FETCH_POSTS_QUERY);
+
+  const [createComment] = useMutation(SUBMIT_COMMENT_MUTATION, {
+    update(cache, result) {
+      setComment("");
+    },
+    variables: { postId, body: comment },
+  });
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    createComment();
+  };
 
   useEffect(() => {
     if (!posts.find((post) => post.id === postId)) {
@@ -77,6 +105,7 @@ const SinglePost = () => {
 
     postMarkup = (
       <>
+        {/* Post Content */}
         <div className="flex flex-row rounded-lg rounded-b-none border border-gray-200/80 bg-[#dadbea] p-6">
           {/* User Avatar */}
           <div className="relative">
@@ -177,7 +206,32 @@ const SinglePost = () => {
             </div>
           </div>
         </div>
-        <div className="bg-[#686a8c] text-black px-4 py-4 rounded-lg rounded-t-none">
+
+        {/* Create Comment Form */}
+        <div>
+          <form onSubmit={onSubmit} className="flex">
+            <textarea
+              type="text"
+              name="comment"
+              rows={1}
+              placeholder="Leave your comments ..."
+              required
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              className="block w-full py-2 px-2 text-[#3d405b] border-2 border-transparent transition duration-500 min-h-[44px] max-h-[100px] focus:outline-none focus:border-[#b7a8e8]"
+            />
+            <button
+              type="submit"
+              className="px-3 bg-[#fddd9b] text-[#686a8c] hover:bg-[#ffcd69] transition duration-300"
+              disabled={comment.trim() === ""}
+            >
+              SUBMIT
+            </button>
+          </form>
+        </div>
+
+        {/* Comments Area */}
+        <div className="bg-[#686a8c] text-black px-4 py-4 rounded-lg rounded-t-none max-h-[470px] overflow-y-auto">
           {commentCount === 0 && (
             <p className="text-[#dfdfdf] text-center">No comment yet</p>
           )}
