@@ -4,6 +4,7 @@ import { AuthContext } from "../context/auth";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { FETCH_POSTS_QUERY } from "../utils/graphql";
+import { Dialog } from "@headlessui/react";
 
 const CREATE_POST_MUTATION = gql`
   mutation CreatePost($body: String!) {
@@ -29,7 +30,7 @@ const CREATE_POST_MUTATION = gql`
   }
 `;
 
-const PostForm = ({ showModal, setShowModal }) => {
+const PostForm = ({ isAddPostModal, setIsAddPostModal }) => {
   const { logout } = useContext(AuthContext);
   const [error, setError] = useState("");
   const { values, loading, onChange, onSubmit, setLoading } = useForm(
@@ -39,7 +40,7 @@ const PostForm = ({ showModal, setShowModal }) => {
     }
   );
 
-  if (!showModal) {
+  if (!isAddPostModal) {
     values.body = "";
     if (error) {
       setError("");
@@ -52,7 +53,7 @@ const PostForm = ({ showModal, setShowModal }) => {
       const newData = { getPosts: [result.data.createPost, ...data.getPosts] };
       cache.writeQuery({ query: FETCH_POSTS_QUERY, data: newData });
       setLoading(false);
-      setShowModal(false);
+      setIsAddPostModal(false);
     },
     onError(err) {
       setError(err.graphQLErrors[0].message);
@@ -69,77 +70,56 @@ const PostForm = ({ showModal, setShowModal }) => {
   }
 
   return (
-    <div
-      className={`py-12 bg-[#3d405b57] transition duration-150 ease-in-out z-10 absolute top-0 right-0 bottom-0 left-0 animated ${
-        showModal ? "flex fadeIn" : "hidden"
-      }`}
+    <Dialog
+      open={isAddPostModal}
+      onClose={() => setIsAddPostModal(false)}
+      className="relative z-50"
     >
-      <div className="mx-auto mt-12">
-        <div className="relative w-[600px] py-8 px-5 md:px-10 bg-[#ffd46f] shadow-md rounded-xl border-[3px] border-[#ffffffc7]">
-          <h1 className="text-[#585a79] text-lg font-bold leading-tight mb-4 text-center tracking-wider">
+      <div className="fixed inset-0 flex items-center justify-center bg-[#3d405b57]">
+        <Dialog.Panel className="w-[750px] rounded bg-[#fdf1e6] p-2 shadow-lg border-[5px] border-[#fff]">
+          <Dialog.Title className="text-center bg-[#fddd9b] p-2 text-[#6e6c8b] font-bold tracking-wider">
             ADD POST
-          </h1>
-          <form onSubmit={onSubmit}>
-            <textarea
-              className={`mb-5 mt-2 py-2 h-[300px] text-gray-600 focus:outline-none focus:border-2 focus:border-[#b6bafb] font-normal w-full flex items-center pl-3 text-sm border-gray-300 rounded border ${
-                error ? "border-[#ffa718]" : ""
-              }`}
-              placeholder="Share something..."
-              name="body"
-              onChange={onChange}
-              value={values.body}
-            />
+          </Dialog.Title>
+          <Dialog.Description className="px-4 py-8 text-[#737595] text-center tracking-wide">
+            <form onSubmit={onSubmit}>
+              <textarea
+                className={`mb-5 mt-2 py-2 h-[300px] min-h-[44px] max-h-[300px] text-gray-600 focus:outline-none focus:border-2 focus:border-[#b6bafb] font-normal w-full flex items-center pl-3 text-sm border-gray-300 rounded border ${
+                  error ? "border-[#ffa718]" : ""
+                }`}
+                placeholder="Share something..."
+                name="body"
+                onChange={onChange}
+                value={values.body}
+              />
 
-            {error && (
-              <ul className="bg-[#fcb09b94] px-8 py-4 my-6 rounded-lg opacity-100 transition duration-500 text-[#585a79] border-2 border-solid border-[#ffffff85] shadow-md">
-                <li>{error}</li>
-              </ul>
-            )}
+              {error && (
+                <ul className="bg-[#fcb09b94] px-8 py-4 my-6 rounded-lg opacity-100 transition duration-500 text-[#585a79] border-2 border-solid border-[#ffffff85] shadow-md">
+                  <li>{error}</li>
+                </ul>
+              )}
 
-            {/* Submit button */}
-            <div className="flex items-center justify-center w-full">
-              <button
-                type="submit"
-                className={`focus:outline-none focus:ring-offset-2 transition duration-150 ease-in-out bg-[#585a79] rounded text-[#d9d9d9] px-8 py-2 text-md hover:bg-[#3e405b]`}
-                disabled={loading}
-              >
-                <div className="flex justify-center gap-2">
-                  <span
-                    className={`h-6 w-6 block rounded-full border-4 border-[#88819e] border-t-[#ffd46f] animate-spin ${
-                      loading ? "" : "hidden"
-                    }`}
-                  ></span>
-                  <span>{loading ? "LOADING..." : "Submit"}</span>
-                </div>
-              </button>
-            </div>
-          </form>
-
-          {/* Close button */}
-          <button
-            className="cursor-pointer absolute top-0 right-0 mt-4 mr-5 text-gray-400 hover:text-gray-600 transition duration-150 ease-in-out rounded focus:ring-2 focus:outline-none focus:ring-gray-600"
-            onClick={() => setShowModal(false)}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="icon icon-tabler icon-tabler-x"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              strokeWidth="2.5"
-              stroke="currentColor"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path stroke="none" d="M0 0h24v24H0z" />
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          </button>
-        </div>
+              {/* Submit button */}
+              <div className="flex items-center justify-center w-full">
+                <button
+                  type="submit"
+                  className={`focus:outline-none focus:ring-offset-2 transition duration-150 ease-in-out bg-[#585a79] rounded text-[#d9d9d9] px-8 py-2 text-md hover:bg-[#3e405b]`}
+                  disabled={loading}
+                >
+                  <div className="flex justify-center gap-2">
+                    <span
+                      className={`h-6 w-6 block rounded-full border-4 border-[#88819e] border-t-[#ffd46f] animate-spin ${
+                        loading ? "" : "hidden"
+                      }`}
+                    ></span>
+                    <span>{loading ? "LOADING..." : "Submit"}</span>
+                  </div>
+                </button>
+              </div>
+            </form>
+          </Dialog.Description>
+        </Dialog.Panel>
       </div>
-    </div>
+    </Dialog>
   );
 };
 

@@ -1,5 +1,5 @@
 import { useState, useContext, Fragment, useEffect } from "react";
-import { Popover, Transition } from "@headlessui/react";
+import { Popover, Transition, Dialog } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { AuthContext } from "../context/auth";
 import { Link } from "react-router-dom";
@@ -26,13 +26,18 @@ import PostForm from "../components/PostForm";
 
 const Header = () => {
   const { user, logout } = useContext(AuthContext);
-  const [showModal, setShowModal] = useState(false);
+  const [isAddPostModal, setIsAddPostModal] = useState(false);
+  const [showTokenExpiredNotify, setShowTokenExpiredNotify] = useState(false);
 
   useEffect(() => {
     if (!user) {
-      logout();
+      setShowTokenExpiredNotify(true);
     }
   }, [logout, user]);
+
+  const onClick = () => {
+    logout();
+  };
 
   return (
     <Popover className="bg-[#3d405b]">
@@ -56,7 +61,7 @@ const Header = () => {
             <button
               type="button"
               className="px-3 pt-1 pb-1 mr-3 bg-[#dadbea] text-[#676a8c] font-bold text-sm leading-normal uppercase rounded hover:bg-[#ffd46f] hover:scale-105 active:bg-[#ffd46f] active:shadow-lg transition duration-200 ease-in-out flex align-center items-center scale-100 relative"
-              onClick={() => setShowModal(true)}
+              onClick={() => setIsAddPostModal(true)}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -75,7 +80,10 @@ const Header = () => {
               Add Post
             </button>
 
-            <PostForm showModal={showModal} setShowModal={setShowModal} />
+            <PostForm
+              isAddPostModal={isAddPostModal}
+              setIsAddPostModal={setIsAddPostModal}
+            />
 
             <Link
               to="/login"
@@ -87,6 +95,33 @@ const Header = () => {
           </div>
         </div>
       </div>
+
+      <Dialog
+        open={showTokenExpiredNotify}
+        onClose={() => setShowTokenExpiredNotify(false)}
+        className="relative z-50"
+      >
+        <div className="fixed inset-0 flex items-center justify-center">
+          <Dialog.Panel className="w-full max-w-sm rounded bg-[#fdf1e6] p-2 shadow-lg border-[5px] border-[#fff]">
+            <Dialog.Title className="text-center bg-[#fddd9b] p-2 text-[#6e6c8b] font-bold tracking-wider">
+              Notify
+            </Dialog.Title>
+            <Dialog.Description className="px-4 py-8 text-[#737595] text-center tracking-wide">
+              Token is expired.
+              <br />
+              Please login again.
+            </Dialog.Description>
+            <div className="flex justify-center mb-3">
+              <button
+                className="bg-[#fff] text-[#686a8c] px-4 py-2 rounded-md mx-2 hover:bg-[#f8f8f8]"
+                onClick={onClick}
+              >
+                OK
+              </button>
+            </div>
+          </Dialog.Panel>
+        </div>
+      </Dialog>
 
       {/* <Transition
         as={Fragment}
