@@ -8,7 +8,7 @@ const Home = () => {
     useQuery(FETCH_POSTS_QUERY);
 
   return (
-    <div className="w-7/12 h-[800px] overflow-y-scroll overflow-x-hidden px-2 py-6 mx-4 rounded-xl bg-[#ffffff58]">
+    <div className="w-full 2xl:w-7/12 h-[100vh] 2xl:h-[800px] overflow-y-scroll overflow-x-hidden px-2 py-6 my-0 mx-auto 2xl:mx-4 rounded-xl bg-[#ffffff58]">
       {loading ? "loading..." : <PostCard posts={posts} />}
     </div>
   );

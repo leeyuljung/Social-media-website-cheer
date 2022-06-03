@@ -2,7 +2,7 @@ import React from "react";
 
 const Notifications = () => {
   return (
-    <div className="w-3/12 h-fit pb-4 shadow-md bg-[#ffffff91] rounded-lg tracking-wider">
+    <div className="hidden 2xl:block w-3/12 h-fit pb-4 shadow-md bg-[#ffffff91] rounded-lg tracking-wider">
       <div className="pt-4 pb-2 px-6">
         <div>
           <div className="ml-3">

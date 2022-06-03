@@ -7,7 +7,7 @@ const SideMenu = () => {
   const { user } = useContext(AuthContext);
 
   return (
-    <nav className="w-2/12 h-fit pb-2 shadow-md bg-[#ffffff91] rounded-lg tracking-wider">
+    <nav className="hidden 2xl:block w-2/12 h-fit pb-2 shadow-md bg-[#ffffff91] rounded-lg tracking-wider">
       <div className="pt-4 pb-2 px-6">
         <div className="flex items-center">
           {/* 頭貼 */}

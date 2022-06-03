@@ -47,6 +47,10 @@ body {
   display: none;
 }
 
+svg {
+  border-radius: 50%;
+}
+
 .active {
   background: #c8c9dc;
 }
@@ -87,6 +91,20 @@ body {
 
 .vertical-timeline-element-content .vertical-timeline-element-date {
   padding: 1rem 0.8rem !important;
+}
+
+@media screen and (max-width: 1170px) {
+  .vertical-timeline {
+    padding: 0 0 4rem !important;
+  }
+
+  .vertical-timeline-element-content .vertical-timeline-element-date {
+    display: none !important;
+  }
+}
+
+.vertical-timeline--animate .vertical-timeline-element-icon.bounce-in {
+  overflow: hidden;
 }
 
 /* Modal animation */

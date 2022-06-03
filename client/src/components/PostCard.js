@@ -35,7 +35,7 @@ const PostCard = ({ posts }) => {
             </h4>
 
             {/* Post Body */}
-            <p>{body}</p>
+            <p className="break-words">{body}</p>
 
             <div className="flex justify-between items-center border-t border-dashed pt-3 mt-4">
               {/* Post like and comment counts */}
