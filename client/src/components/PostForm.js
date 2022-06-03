@@ -76,11 +76,11 @@ const PostForm = ({ isAddPostModal, setIsAddPostModal }) => {
       className="relative z-50"
     >
       <div className="fixed inset-0 flex items-center justify-center bg-[#3d405b57]">
-        <Dialog.Panel className="w-[750px] rounded bg-[#fdf1e6] p-2 shadow-lg border-[5px] border-[#fff]">
+        <Dialog.Panel className="w-[90%] 2xl:w-[750px] rounded bg-[#fdf1e6] p-2 shadow-lg border-[5px] border-[#fff]">
           <Dialog.Title className="text-center bg-[#fddd9b] p-2 text-[#6e6c8b] font-bold tracking-wider">
             ADD POST
           </Dialog.Title>
-          <Dialog.Description className="px-4 py-8 text-[#737595] text-center tracking-wide">
+          <Dialog.Description className="px-1 2xl:px-4 py-2 2xl:py-8 text-[#737595] text-center tracking-wide">
             <form onSubmit={onSubmit}>
               <textarea
                 className={`mb-5 mt-2 py-2 h-[300px] min-h-[44px] max-h-[300px] text-gray-600 focus:outline-none focus:border-2 focus:border-[#b6bafb] font-normal w-full flex items-center pl-3 text-sm border-gray-300 rounded border ${
@@ -93,7 +93,7 @@ const PostForm = ({ isAddPostModal, setIsAddPostModal }) => {
               />
 
               {error && (
-                <ul className="bg-[#fcb09b94] px-8 py-4 my-6 rounded-lg opacity-100 transition duration-500 text-[#585a79] border-2 border-solid border-[#ffffff85] shadow-md">
+                <ul className="bg-[#fcb09b94] px-8 py-2 2xl:py-4 my-6 rounded-lg opacity-100 transition duration-500 text-[#585a79] border-2 border-solid border-[#ffffff85] shadow-md text-sm 2xl:text-base">
                   <li>{error}</li>
                 </ul>
               )}
@@ -111,7 +111,9 @@ const PostForm = ({ isAddPostModal, setIsAddPostModal }) => {
                         loading ? "" : "hidden"
                       }`}
                     ></span>
-                    <span>{loading ? "LOADING..." : "Submit"}</span>
+                    <span className="text-sm 2xl:text-base">
+                      {loading ? "LOADING..." : "Submit"}
+                    </span>
                   </div>
                 </button>
               </div>

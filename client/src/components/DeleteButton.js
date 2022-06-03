@@ -51,10 +51,10 @@ const DeleteButton = ({ postId, callback, commentId }) => {
   return (
     <>
       <button
-        className={`right-0 top-full w-[20px] h-[20px] p-2 scale-100 bg-[#ffd7a9] transition duration-300 hover:bg-[#ffc1c1] hover:scale-105 rounded-full !box-content  ${
+        className={`right-0 top-full w-[20px] h-[20px] p-2 scale-100 bg-[#ffd7a9] transition duration-300 hover:bg-[#ffc1c1] hover:scale-105 rounded-full !box-content ${
           callback || commentId
             ? "shadow-none border-0"
-            : "absolute mt-2 shadow-md border-2 border-white"
+            : "absolute mt-2 shadow-md border-2 border-white hidden 2xl:inline-block"
         }`}
         onClick={() => setIsOpen(true)}
       >
@@ -79,7 +79,7 @@ const DeleteButton = ({ postId, callback, commentId }) => {
         onClose={() => setIsOpen(false)}
         className="relative z-50"
       >
-        <div className="fixed inset-0 flex items-center justify-center">
+        <div className="fixed inset-x-7 inset-y-0 2xl:inset-0 flex items-center justify-center">
           <Dialog.Panel className="w-full max-w-sm rounded bg-[#fdf1e6] p-2 shadow-lg border-[5px] border-[#fff]">
             <Dialog.Title className="text-center bg-[#fddd9b] p-2 text-[#6e6c8b] font-bold tracking-wider">
               Delete

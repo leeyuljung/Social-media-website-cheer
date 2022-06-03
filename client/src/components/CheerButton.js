@@ -33,7 +33,7 @@ const CheerButton = ({ user: { username }, post: { id, likes } }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className={`h-8 w-8 inline-block text-[#676a8c] bg-[transparent] rounded-full cursor-pointer hover:bg-[#fdd540] hover:animate-[bounce_0.8s_ease-in_0.3s_infinite] ${
+      className={`h-8 w-8 inline-block text-[#676a8c] bg-[transparent] rounded-full cursor-pointer 2xl:hover:bg-[#fdd540] 2xl:hover:animate-[bounce_0.8s_ease-in_0.3s_infinite] ${
         cheered ? "active-btn" : ""
       }`}
       fill="none"

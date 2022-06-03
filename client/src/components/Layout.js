@@ -7,7 +7,7 @@ const Layout = () => {
   return (
     <>
       <Header />
-      <div className="w-[1500px] mt-8 mx-auto flex">
+      <div className="w-full 2xl:w-[1500px] 2xl:my-4 2xl:mt-8 mx-auto flex">
         <SideMenu />
         <Outlet />
         <Notifications />

@@ -50,7 +50,7 @@ const Login = () => {
 
   return (
     <div
-      className="w-[500px] mx-auto mt-12 px-10 py-10 bg-white rounded-lg shadow-lg overflow-hidden"
+      className="fixed inset-x-0 inset-y-0 md:inset-y-auto max-w-full md:w-[500px] mx-auto md:mt-12 p-8 py-20 md:px-10 md:py-10 bg-white rounded-lg shadow-lg overflow-hidden"
       style={{
         background:
           "linear-gradient(to bottom, rgba(255, 190, 111, 0.5), rgba(206, 182, 240, 0.5))",
@@ -58,7 +58,7 @@ const Login = () => {
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        className="h-14 w-14 mx-auto mb-4 mt-2 text-[#3d405b] bg-[#ffd46f] rounded-full shadow-md animate-bounce"
+        className="h-9 w-9 md:h-14 md:w-14 mx-auto mb-2 mt-0 md:mb-4 md:mt-2 text-[#3d405b] bg-[#ffd46f] rounded-full shadow-md animate-bounce"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -70,11 +70,11 @@ const Login = () => {
           d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
         />
       </svg>
-      <h2 className="text-center font-semibold text-3xl text-[#3d405b] tracking-wide drop-shadow-md">
+      <h2 className="text-center font-semibold text-xl md:text-3xl text-[#3d405b] tracking-wide drop-shadow-md">
         Welcome to <span className="text-[#fff]">Cheer</span>
       </h2>
 
-      <form className="mt-8" onSubmit={onSubmit} noValidate>
+      <form className="mt-6 md:mt-8" onSubmit={onSubmit} noValidate>
         {/* Username*/}
         <label
           htmlFor="username"
@@ -87,7 +87,7 @@ const Login = () => {
           type="text"
           name="username"
           placeholder="username"
-          className={`block w-full py-2 px-2 mt-2 text-[#3d405b] appearance-none border-2 border-transparent rounded-md transition duration-500 focus:outline-none focus:border-[#b7a8e8] ${
+          className={`block w-full p-1 md:py-2 md:px-2 mt-2 text-[#3d405b] appearance-none border-2 border-transparent rounded-md transition duration-500 focus:outline-none focus:border-[#b7a8e8] ${
             errors.username ? "border-[#ffa718]" : ""
           }`}
           required
@@ -107,7 +107,7 @@ const Login = () => {
           type="password"
           name="password"
           placeholder="password"
-          className={`block w-full py-2 px-2 mt-2 text-[#3d405b] appearance-none border-2 border-transparent rounded-md transition duration-500 focus:outline-none focus:border-[#b7a8e8] ${
+          className={`block w-full p-1 md:py-2 md:px-2 mt-2 text-[#3d405b] appearance-none border-2 border-transparent rounded-md transition duration-500 focus:outline-none focus:border-[#b7a8e8] ${
             errors.password ? "border-[#ffa718]" : ""
           }`}
           required
@@ -118,7 +118,7 @@ const Login = () => {
         {/* Submit Buttton */}
         <button
           type="submit"
-          className={`w-full py-3 mt-8 bg-[#585a79] transition duration-300 rounded-sm font-medium text-[#d9d9d9] uppercase tracking-wider focus:outline-none hover:bg-[#3e405b] hover:shadow-none ${
+          className={`w-full py-2 md:py-3 mt-4 md:mt-8 bg-[#585a79] transition duration-300 rounded-md font-medium text-[#d9d9d9] uppercase tracking-wider focus:outline-none hover:bg-[#3e405b] hover:shadow-none ${
             loading ? "bg-[#3e405b] animate-pulse" : ""
           }`}
           disabled={loading}
@@ -146,7 +146,7 @@ const Login = () => {
         </div>
       </form>
       {Object.keys(errors).length > 0 && (
-        <ul className="bg-[#fcb09b94] px-8 py-4 mt-6 rounded-lg opacity-100 transition duration-500 text-[#585a79] border-2 border-solid border-[#ffffff85] shadow-md">
+        <ul className="bg-[#fcb09b94] px-4 md:px-8 py-4 mt-6 text-sm md:text-base rounded-lg opacity-100 transition duration-500 text-[#585a79] border-2 border-solid border-[#ffffff85] shadow-md">
           {Object.values(errors).map((value) => (
             <li key={value}>{value}</li>
           ))}
