@@ -8,6 +8,7 @@ import gql from "graphql-tag";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import moment from "moment";
 import { FETCH_POSTS_QUERY } from "../utils/graphql";
+import Skeleton from "react-loading-skeleton";
 
 const FETCH_POST_QUERY = gql`
   query getPost($postId: ID!) {
@@ -89,8 +90,17 @@ const SinglePost = () => {
   }
 
   let postMarkup;
-  if (!post) {
-    postMarkup = <div>Loading...</div>;
+  if (Object.keys(post).length === 0) {
+    postMarkup = (
+      <div className="mt-2">
+        <Skeleton
+          className="mt-2"
+          count={3}
+          baseColor="#a3a5c0"
+          highlightColor="#fddd9b"
+        />
+      </div>
+    );
   } else {
     const {
       id,
