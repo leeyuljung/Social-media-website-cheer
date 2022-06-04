@@ -83,7 +83,7 @@ const PostForm = ({ isAddPostModal, setIsAddPostModal }) => {
           <Dialog.Description className="px-1 2xl:px-4 py-2 2xl:py-8 text-[#737595] text-center tracking-wide">
             <form onSubmit={onSubmit}>
               <textarea
-                className={`mb-5 mt-2 py-2 h-[300px] min-h-[44px] max-h-[300px] text-gray-600 focus:outline-none focus:border-2 focus:border-[#b6bafb] font-normal w-full flex items-center pl-3 text-sm border-gray-300 rounded border ${
+                className={`mb-5 mt-2 py-2 h-[200px] 2xl:h-[300px] min-h-[44px] max-h-[200px] 2xl:max-h-[300px] text-gray-600 focus:outline-none focus:border-2 focus:border-[#b6bafb] font-normal w-full flex items-center pl-3 text-sm border-gray-300 rounded border ${
                   error ? "border-[#ffa718]" : ""
                 }`}
                 placeholder="Share something..."
