@@ -1,4 +1,5 @@
 import React from "react";
+import MetaTags from "react-meta-tags";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -14,6 +15,23 @@ import { AuthProvider } from "./context/auth";
 function App() {
   return (
     <AuthProvider>
+      <MetaTags>
+        <meta
+          id="og-description"
+          property="og:description"
+          content="This is a social media website to cheer for you."
+        />
+        <meta
+          id="og-title"
+          property="og:title"
+          content="Cheer :) - Social Media Website"
+        />
+        <meta
+          id="og-image"
+          property="og:image"
+          content="../public/logo192.png"
+        />
+      </MetaTags>
       <Router>
         <Routes>
           <Route path="/login" element={<PublicRoutes />}>
