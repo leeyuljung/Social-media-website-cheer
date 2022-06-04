@@ -76,7 +76,7 @@ const Header = () => {
             <div className="-mr-2 -my-2 2xl:hidden">
               <Popover.Button className="bg-white rounded p-1 2xl:p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100">
                 <span className="sr-only">Open menu</span>
-                <MenuIcon className="h-6 w-6" aria-hidden="true" />
+                <MenuIcon className="h-6 w-6" />
               </Popover.Button>
             </div>
           </div>
@@ -168,7 +168,7 @@ const Header = () => {
                 <div className="-mr-2">
                   <Popover.Button className="bg-white rounded-md p-2 w-8 h-8 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 focus:outline-none">
                     <span className="sr-only">Close menu</span>
-                    <XIcon className="h-6 w-6" aria-hidden="true" />
+                    <XIcon className="h-6 w-6" />
                   </Popover.Button>
                 </div>
               </div>
@@ -191,13 +191,14 @@ const Header = () => {
             <div className="py-4 px-5 space-y-6">
               <div className="grid grid-cols-1 gap-y-2 gap-x-4">
                 {menu.map((item) => (
-                  <NavLink
+                  <Popover.Button
                     key={item.name}
                     to={item.href}
+                    as={NavLink}
                     className="text-base text-center text-[#63658f] py-1 rounded"
                   >
                     {item.name}
-                  </NavLink>
+                  </Popover.Button>
                 ))}
               </div>
               <div>
