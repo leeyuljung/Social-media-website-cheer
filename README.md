@@ -1,6 +1,6 @@
 ## Social-media-website-cheer
 - Website Name : Cheer
-- This is just a side-project for practicing MERNG development stack.
+- This is just a small side-project for practicing MERNG development stack.
 - Client Deployment：https://leeyuljung-cheer-client.netlify.app/
 - Server Deployment：https://leeyuljung-cheer-api.herokuapp.com/
 
