@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 
 const typeDefs = require("./graphql/typeDefs");
 const resolvers = require("./graphql/resolvers");
-const { MONGODB } = require("./config");
+// const { MONGODB } = require("./config");
 
 const PORT = process.env.PORT || 5000;
 
